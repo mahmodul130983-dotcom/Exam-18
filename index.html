@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>18 Number Exam</title>
+  
+  <!-- Google Fonts & Font Awesome Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --secondary: #ec4899;
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+      --card-bg: rgba(255, 255, 255, 0.07);
+      --card-border: rgba(255, 255, 255, 0.15);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      
+      --correct-bg: rgba(34, 197, 94, 0.2);
+      --correct-border: #22c55e;
+      --correct-text: #4ade80;
+
+      --wrong-bg: rgba(239, 68, 68, 0.2);
+      --wrong-border: #ef4444;
+      --wrong-text: #f87171;
+
+      --skipped-bg: rgba(245, 158, 11, 0.2);
+      --skipped-border: #f59e0b;
+      --skipped-text: #fbbf24;
+
+      --glass-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Hind Siliguri', 'Outfit', sans-serif;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 12px;
+      overflow-x: hidden;
+    }
+
+    .ambient-bg {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .circle-1, .circle-2 {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.35;
+      animation: float 10s infinite alternate ease-in-out;
+    }
+
+    .circle-1 {
+      width: 380px;
+      height: 380px;
+      background: #4f46e5;
+      top: -50px;
+      left: -50px;
+    }
+
+    .circle-2 {
+      width: 420px;
+      height: 420px;
+      background: #db2777;
+      bottom: -100px;
+      right: -50px;
+      animation-delay: -5s;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 50px) scale(1.1); }
+    }
+
+    .quiz-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--card-border);
+      width: 100%;
+      max-width: 840px;
+      border-radius: 24px;
+      box-shadow: var(--glass-shadow);
+      padding: 32px 28px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    /* Screen 1: Special Motivation & Dream Page */
+    .motivation-screen {
+      text-align: center;
+      display: block;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(99, 102, 241, 0.2);
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      color: #a5b4fc;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .motivation-title {
+      font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(to right, #ffffff, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .motivation-desc {
+      color: #cbd5e1;
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      background: rgba(236, 72, 153, 0.08);
+      border: 1px dashed rgba(236, 72, 153, 0.3);
+      padding: 16px;
+      border-radius: 16px;
+    }
+
+    /* Dream Input Boxes Section */
+    .dream-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .dream-box-item {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--card-border);
+      padding: 14px 18px;
+      border-radius: 14px;
+    }
+
+    .dream-box-item label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+    }
+
+    .dream-box-item input {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 14px;
+      color: var(--text-main);
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .dream-box-item input:focus {
+      border-color: #ec4899;
+    }
+
+    /* Screen 2: Name Input View */
+    .user-info-screen {
+      text-align: center;
+      display: none;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 24px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .input-wrapper i {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #818cf8;
+      font-size: 18px;
+      pointer-events: none;
+    }
+
+    .user-input {
+      width: 100%;
+      padding: 16px 20px 16px 52px;
+      font-size: 16px;
+      color: var(--text-main);
+      background: rgba(15, 23, 42, 0.6);
+      border: 2px solid var(--card-border);
+      border-radius: 14px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .user-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.35);
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    .btn-glow {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+      color: white;
+      border: none;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: 700;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-glow:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(236, 72, 153, 0.5);
+    }
+
+    /* Top Bar & Header */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .student-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      color: #cbd5e1;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 6px 14px;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .progress-pill {
+      font-size: 14px;
+      font-weight: 700;
+      color: #818cf8;
+      background: rgba(99, 102, 241, 0.15);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 7px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #6366f1, #ec4899);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    /* Question & Option Styles */
+    .question-box {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.5;
+      margin-bottom: 22px;
+      color: #ffffff;
+      min-height: 56px;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-btn {
+      width: 100%;
+      padding: 15px 18px;
+      font-size: 16px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+      border: 1.5px solid var(--card-border);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: #818cf8;
+      background: rgba(99, 102, 241, 0.12);
+      transform: translateX(3px);
+    }
+
+    .option-btn.correct-opt {
+      background: var(--correct-bg) !important;
+      border-color: var(--correct-border) !important;
+      color: var(--correct-text) !important;
+      font-weight: 600;
+    }
+
+    .option-btn.wrong-opt {
+      background: var(--wrong-bg) !important;
+      border-color: var(--wrong-border) !important;
+      color: var(--wrong-text) !important;
+      font-weight: 600;
+    }
+
+    .option-btn.disabled-opt {
+      opacity: 0.8;
+      cursor: not-allowed;
+    }
+
+    /* Navigation Action Bar */
+    .nav-actions {
+      margin-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .skip-btn {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: var(--skipped-text);
+    }
+
+    .skip-btn:hover {
+      background: rgba(245, 158, 11, 0.25) !important;
+    }
+
+    .submit-exam-btn {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+      transition: all 0.2s;
+      display: none;
+    }
+
+    .submit-exam-btn:hover {
+      transform: scale(1.03);
+    }
+
+    /* Result Screen */
+    .result-screen {
+      text-align: center;
+      display: none;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    .score-circle {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,102,241,0.25) 0%, rgba(236,72,153,0.1) 100%);
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 20px auto;
+      box-shadow: 0 0 35px rgba(99, 102, 241, 0.35);
+    }
+
+    .score-circle .number {
+      font-size: 42px;
+      font-weight: 800;
+      line-height: 1;
+      background: linear-gradient(to right, #818cf8, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .score-details-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 24px 0;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 14px 8px;
+      border-radius: 14px;
+    }
+
+    .stat-card .val {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .review-section {
+      margin-top: 24px;
+      text-align: left;
+      max-height: 320px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+
+    .review-section::-webkit-scrollbar {
+      width: 6px;
+    }
+    .review-section::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+    }
+
+    .review-item {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .review-item.is-correct { border-left: 4px solid var(--correct-border); }
+    .review-item.is-wrong { border-left: 4px solid var(--wrong-border); }
+    .review-item.is-skipped { border-left: 4px solid var(--skipped-border); }
+
+    .review-q { font-weight: 600; color: #fff; margin-bottom: 6px; }
+    .review-ans { color: var(--text-muted); display: flex; flex-direction: column; gap: 4px; }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: rgba(30, 27, 75, 0.95);
+      border: 1px solid var(--card-border);
+      padding: 28px;
+      border-radius: 20px;
+      max-width: 440px;
+      width: 90%;
+      text-align: center;
+      box-shadow: var(--glass-shadow);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .score-details-grid { grid-template-columns: repeat(2, 1fr); }
+      .quiz-card { padding: 22px 16px; }
+      .motivation-title { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-bg">
+    <div class="circle-1"></div>
+    <div class="circle-2"></div>
+  </div>
+
+  <div class="quiz-card">
+    
+    <!-- 1. Special Motivation & Dream Page (No Results Mentioned) -->
+    <div id="motivation-view" class="motivation-screen">
+      <div class="badge-tag">
+        <i class="fa-solid fa-heart"></i> Hey, My Favourite Person! ❤️ <i class="fa-solid fa-heart"></i>
+      </div>
+      <h1 class="motivation-title">It's your time to conquer! ✨</h1>
+      <p class="motivation-desc">
+      Your dream is still waiting for you, my girl. And I can't wait to see you achieve it. ❤️🌸<br>
+       This is just one chapter of your journey, my girl, not the end of your story. Your DU dream is still alive, and I truly believe beautiful days are waiting for you. Keep believing in yourself, Pakhi. ❤️
+      </p>
+
+      <!-- Dream Interactive Boxes -->
+      <div class="dream-grid">
+        <div class="dream-box-item">
+          <label><i class="fa-solid fa-star" style="color: #f472b6;"></i> DO YOU LIKE BIRIYANI?</label>
+          <input type="text" id="dream-uni" placeholder="e.g.AMR HATE HOLE KEMON HOI? ..." autocomplete="off">
+        </div>
+        <div class="dream-box-item">
+          <label><i class="fa-solid fa-bullseye" style="color: #818cf8;"></i> Tumar present time e sobcheye beshie motivation kon jinis e pao?</label>
+          <input type="text" id="dream-future" placeholder="e.g.???? ❤️..." autocomplete="off">
+        </div>
+      </div>
+
+      <button class="btn-glow" onclick="goToNameScreen()">
+        Next: Enter Exam Room <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+
+    <!-- 2. Name Input / Welcome View -->
+    <div id="user-info-view" class="user-info-screen">
+      <div class="badge-tag">
+        <i class="fa-solid fa-graduation-cap"></i> DU B UNIT MODEL TEST
+      </div>
+      <h1 class="motivation-title" style="font-size: 32px;">18 number exam</h1>
+      <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 24px;">including GK, BANGLA, ENGLISH</p>
+      
+      <div class="input-wrapper">
+        <i class="fa-solid fa-user"></i>
+        <input type="text" id="user-name" class="user-input" placeholder="Write your name..." autocomplete="off">
+      </div>
+      
+      <button class="btn-glow" id="start-btn" onclick="startQuiz()">
+       Start The Exam <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+
+    <!-- 3. Interactive Exam Screen -->
+    <div id="quiz-view" style="display: none;">
+      <div class="top-bar">
+        <div class="student-badge">
+          <i class="fa-solid fa-user-circle" style="color: #818cf8;"></i>
+          <span id="display-name">Student</span>
+        </div>
+        <span class="progress-pill" id="progress-text">Question 1/80</span>
+      </div>
+
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <div class="question-box" id="question-title">Question loading...</div>
+      <div class="options-grid" id="options-grid"></div>
+
+      <div class="nav-actions">
+        <button class="nav-btn" id="prev-btn" onclick="navigateQuestion(-1)">
+          <i class="fa-solid fa-chevron-left"></i> Previous 
+        </button>
+
+        <button class="nav-btn skip-btn" id="skip-btn" onclick="skipCurrentQuestion()">
+          <i class="fa-solid fa-forward"></i> Skip
+        </button>
+
+        <button class="nav-btn" id="next-btn" onclick="navigateQuestion(1)">
+          Next <i class="fa-solid fa-chevron-right"></i>
+        </button>
+
+        <button class="submit-exam-btn" id="submit-btn" onclick="openSubmitModal()">
+          <i class="fa-solid fa-paper-plane"></i> Submit
+        </button>
+      </div>
+    </div>
+
+    <!-- 4. Dynamic Results Screen -->
+    <div class="result-screen" id="result-view">
+      <div class="badge-tag" id="performance-badge">
+        <i class="fa-solid fa-trophy"></i> Results are ready
+      </div>
+      <h2 style="font-size: 26px; font-weight: 700; margin-top: 8px;">Results Description</h2>
+      <p style="color: var(--text-muted); font-size: 14px;">'quiz_results 18' are saved in database</p>
+      
+      <div class="score-circle">
+        <div class="number" id="final-score">০.০০</div>
+        <span style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Total Number / 85</span>
+      </div>
+
+      <div class="score-details-grid">
+        <div class="stat-card">
+          <div class="val" style="color: var(--correct-text);" id="correct-count">০</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Right (+1.00)</div>
+        </div>
+        <div class="stat-card">
+          <div class="val" style="color: var(--wrong-text);" id="wrong-count">০</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Wrong(-0.25)</div>
+        </div>
+        <div class="stat-card">
+          <div class="val" style="color: var(--skipped-text);" id="skipped-count">০</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Skip (0)</div>
+        </div>
+        <div class="stat-card">
+          <div class="val" style="color: #a5b4fc;" id="accuracy-rate">০%</div>
+          <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Accuracy</div>
+        </div>
+      </div>
+
+      <h3 style="text-align: left; font-size: 16px; margin-top: 20px; color: #cbd5e1;">Ans and solve review:</h3>
+      <div class="review-section" id="review-list"></div>
+    </div>
+
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="modal-overlay" id="submit-modal">
+    <div class="modal-content">
+      <i class="fa-solid fa-circle-exclamation" style="font-size: 48px; color: #f59e0b; margin-bottom: 12px;"></i>
+      <h3 style="font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 8px;">Do you want to finish the exam?</h3>
+      <p id="modal-summary-text" style="color: var(--text-muted); font-size: 14px;">submit all question ans</p>
+      
+      <div class="modal-actions">
+        <button class="nav-btn" onclick="closeSubmitModal()">back to previous</button>
+        <button class="submit-exam-btn" style="display:inline-block;" onclick="finalizeExam()">Yes, Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCTgSqtcDRtvfbIECDFEv_2jAEgModArXc",
+      authDomain: "gk-exam-2.firebaseapp.com",
+      projectId: "gk-exam-2",
+      storageBucket: "gk-exam-2.firebasestorage.app",
+      messagingSenderId: "52008698353",
+      appId: "1:52008698353:web:08a24e1451711ab72f0450",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // 80 Questions Database
+    const questionsDatabase = [
+{ question: "'জীবন ও বৃক্ষ' প্রবন্ধ অনুসারে দোরের কাছে দাঁড়িয়ে বৃক্ষ কীসের বাণী প্রচার করে?", options: ["নতি, শান্তি ও সেবার", "সাম্য, মৈত্রী ও স্বাধীনতার", "একতা, শৃঙ্খলা ও সাধনার", "সাধনা, ত্যাগ ও পরিপূর্ণতার"], correct: 0 },
+{ question: "'যে মোরে দিয়েছে বিষে-ভরা বাণ, আমি দেই তারে বুকভরা গান'- এ পঙ্ক্তিতে 'বিষে-ভরা বাণ' দ্বারা কী বোঝানো হয়েছে?", options: ["বিষাক্ত তীর", "ধারালো তীর", "কটুকথা", "তীরের আঘাত"], correct: 2 },
+{ question: "ঘোষ মহাপ্রাণ ধ্বনির উদাহরণ কোনটি?", options: ["চ", "ছ", "জ", "ঢ"], correct: 3 },
+{ question: "'হাত জোড় করিয়াছি, মাথা হেঁট করিয়াছি' অপরিচিতা গল্প অনুসারে অনুপমের হাত জোড় করা এবং মাথা হেঁট করা কী নির্দেশ করে?", options: ["অনুপমের ভালোবাসার গভীরতা", "পুরুষতান্ত্রিক দম্ভের পরাজয়", "অনুপমের কাপুরুষতা", "অনুপমের ক্ষমা প্রার্থনা"], correct: 1 },
+{ question: "'অপরিচিতা' গল্পে 'ফলের মতো গুটি' বলতে কী বোঝানো হয়েছে?", options: ["সুন্দর জীবন", "নিষ্ফল জীবন", "সার্থক জীবন", "সতেজ জীবন"], correct: 1 },
+{ question: "'অভ্যুত্থান' শব্দটিতে কয়টি অক্ষর আছে?", options: ["তিনটি", "দুইটি", "চারটি", "একটি"], correct: 0 },
+{ question: "আভিধানিক ক্রম অনুযায়ী বিন্যস্ত শব্দগুচ্ছ—", options: ["নিম্নোক্ত, নিদর্শন, নিরাসক্ত", "নিষ্ক্রিয়, নিসর্গ, নিম্নোক্ত", "নিদর্শন, নিম্নোক্ত, নিরাময়", "নিদর্শন, নিরাসক্ত, নিষ্ক্রিয়"], correct: 2 },
+{ question: "'শূন্য নদীর তীরে/ রহিনু পড়ি।'- কথাটি দ্বারা কী বোঝানো হয়েছে?", options: ["মৃত্যুর অনিবার্যতা", "কালের প্রবহমানতা", "কৃষকের অসহায়ত্ব", "অপ্রাপ্তির বেদনা"], correct: 0 },
+{ question: "কবি নিজেকে 'চির-বিদ্রোহী' বলেছেন কেন?", options: ["তিনি আর্তের পক্ষে দ্রোহ করেন বলে", "তাঁর বিদ্রোহ নিরন্তর বলে", "তাঁর বিদ্রোহ অন্যায়ের বিরুদ্ধে বলে", "তাঁর বিদ্রোহে চিড় ধরে না বলে"], correct: 1 },
+{ question: "নিপাতনে সিদ্ধ 'ষ' এর ব্যবহার হয়েছে কোনটিতে?", options: ["মুমূর্ষু", "অনুষঙ্গ", "বর্ষণ", "ভূষণ"], correct: 3 },
+{ question: "কবি 'বিশ্বামিত্রের শিষ্য' দ্বারা বোঝাতে চেয়েছেন—", options: ["প্রগাঢ় প্রেম", "দ্রোহের প্রচণ্ডতা", "কঠোরতা", "একনিষ্ঠ সাধনা"], correct: 3 },
+{ question: "'যে বস্তুটি এই অসাধ্য-সাধন করিয়া তুলিয়াছিল তাহার পরিচয় যদিও সেদিন পাই নাই, কিন্তু আর একদিন পাইয়াছিলাম' এই বস্তুটি প্রকৃতপক্ষে কী?", options: ["শ্রদ্ধা", "শক্তি", "ভালোবাসা", "মূল্যবোধ"], correct: 2 },
+{ question: "চন্দ্রবিন্দু চিহ্নের ভুল প্রয়োগ হয়েছে কোন শব্দে?", options: ["আঁকাবাঁকা", "কাঁচ", "কাঁধ", "সাঁতার"], correct: 1 },
+{ question: "'প্রশ্ন' শব্দের সঠিক উচ্চারণ কোনটি?", options: ["প্রশ্নো", "প্রোশূনো", "প্রশ্নো", "প্রোস্নো"], correct: 3 },
+{ question: "'বাঙ্গালার নব্য লেখকদিগের প্রতি নিবেদন' প্রবন্ধে বঙ্কিমচন্দ্র যে উদ্দেশ্যে পরামর্শ প্রদান করেছেন—", options: ["বাংলার লেখকদের অর্থনৈতিক দৈন্য দূরীকরণে", "বাংলাভাষার পত্রিকাগুলোর প্রসারে", "বাংলা সাহিত্যের উন্নতিকল্পে", "সাধু-চলিত ভাষারীতির দ্বন্দ্ব নিরসনে"], correct: 2 },
+{ question: "গোটা দেশই ছারখার হয়ে গেছে- এ বাক্যে ব্যবহৃত 'গোটা' পদাশ্রিত নির্দেশক কী অর্থে ব্যবহৃত হয়েছে?", options: ["নির্দিষ্ট", "অনির্দিষ্ট", "সুনির্দিষ্ট", "নিরর্থক"], correct: 0 },
+{ question: "'মেঘলুপ্ত সূর্যের মতো প্রদীপ্ত যৌবন'- কার ক্ষেত্রে বলা হয়েছে?", options: ["তরুণের", "বৃদ্ধের", "শিশুর", "নারীর"], correct: 1 },
+{ question: "নিচের কোনটি 'কন্যা' শব্দের সমার্থক শব্দ নয়?", options: ["আত্মজা", "দুহিতা", "তনয়া", "ললনা"], correct: 3 },
+{ question: "অন্য ভাষায় রূপান্তরিত এর এক কথায় প্রকাশ—", options: ["অনূদিত", "অনুবাদ", "রূপান্তর", "ভিন্ন ভাষা"], correct: 0 },
+{ question: "'Corrigendum' শব্দের বাংলা পরিভাষা—", options: ["পুনর্বিন্যাস", "শুদ্ধিপত্র", "স্থাপত্যকলা", "অনুরোধপত্র"], correct: 1 },
+{ question: "He ______ learning English ______ three years ago.", options: ["is, for", "has been, for", "has been, during", "has been, since"], correct: 3 },
+{ question: "By the end of this week, they ______ the main sites of Chattogram.", options: ["will visit", "had visited", "will be visiting", "will have visited"], correct: 3 },
+{ question: "Much as his elder brother ______ at BUET, he ______ at DU.", options: ["had studied, studied", "studied, studied", "had studied, has studied", "will study"], correct: 1 },
+{ question: "It was the first time that I ______ salmon.", options: ["tried", "have tried", "had tried", "tasted"], correct: 2 },
+{ question: "She ______ born into a rich family.", options: ["is", "has been", "was", "all of them"], correct: 2 },
+{ question: "Which of these words is closest in meaning to the word 'drag'?", options: ["medicine", "crush", "proud", "pull"], correct: 3 },
+{ question: "The word 'diaspora' is related to -.", options: ["Migration", "Entrance", "Concentration", "Appearance"], correct: 0 },
+{ question: "She is blind ______ one eye.", options: ["of", "with", "to", "in"], correct: 3 },
+{ question: "He says he'll help us, but I don't believe ______ him.", options: ["in", "on", "about", "no preposition"], correct: 3 },
+{ question: "Which sentence uses the idiom \"fight shy of\" correctly?", options: ["He tends to fight shy of discussing personal matters in public.", "She fought shy of the competition by training harder every day.", "We fight shy of our teacher by asking too many questions.", "They fought shy of the problem and solved it immediately."], correct: 0 },
+{ question: "Reverie: Daydream:: Vivid: ?", options: ["Vague", "Graphic", "Empirical", "Cognitive"], correct: 1 },
+{ question: "Choose the correct spelling:", options: ["Embellishment", "Embelishment", "Embellissment", "Embelisshment"], correct: 0 },
+{ question: "I could not ______ the reason for this delay.", options: ["drop out", "figure out", "look out", "shake away"], correct: 1 },
+{ question: "\"Less is more.\" Which figure of speech is used?", options: ["Irony", "Hyperbole", "Paradox", "Metonymy"], correct: 2 },
+{ question: "The dynamic between the two business partners was inherently ______; they frequently argued over minor operational details but always managed to finalize major deals smoothly.", options: ["anomalous", "homogeneous", "volatile", "monolithic"], correct: 2 },
+{ question: "Which sentence below is incorrect?", options: ["The man I bought it from told me to oil it.", "The man who I bought it from told me to oil it.", "The man I bought it told me to oil it.", "The man from whom I bought it told me to oil it."], correct: 2 },
+{ question: "She would let neither you nor ______ do it. Fill in the blank.", options: ["me", "I", "her", "himself"], correct: 0 },
+{ question: "She ______ a promise to support the team throughout the process.", options: ["gave", "made", "did", "took"], correct: 1 },
+{ question: "Choose the correct spelling:", options: ["Liaison", "Liason", "Liazan", "Liasion"], correct: 0 },
+{ question: "The shouts and cheers gradually ______ as the President stood up to speak.", options: ["died out", "faded out", "died away", "went out"], correct: 2 },  
+{ question: "নিচের কোন জেলার সাথে ভারতের সীমানা নেই?", options: ["পঞ্চগড়", "সাতক্ষীরা", "কক্সবাজার", "হবিগঞ্জ"], correct: 2 },
+{ question: "বাংলাদেশের একমাত্র পাহাড় বিশিষ্ট দ্বীপ কোনটি?", options: ["সোনাদিয়া", "কুতুবদিয়া", "মহেশখালী", "সন্দ্বীপ"], correct: 2 },
+{ question: "দেশের প্রথম ট্যুরিজম পার্ক 'জালিয়ার দ্বীপ' কোথায় অবস্থিত?", options: ["টেকনাফ, কক্সবাজার", "হাতিয়া, নোয়াখালী", "মনপুরা, ভোলা", "দুবলার চর, খুলনা"], correct: 0 },
+{ question: "সেন্ট মার্টিন কি ধরণের দ্বীপ?", options: ["আগ্নেয় দ্বীপ", "প্রবাল দ্বীপ", "ব-দ্বীপ", "কৃত্রিম দ্বীপ"], correct: 1 },
+{ question: "নিচের কোন রেখাটি বাংলাদেশের মধ্য দিয়ে অতিক্রম করেছে?", options: ["মূলমধ্যরেখা", "মকরক্রান্তি রেখা", "কর্কটক্রান্তি রেখা", "সুমেরু রেখা"], correct: 2 },
+{ question: "ভারতের কোন প্রদেশের সাথে বাংলাদেশের দীর্ঘতম সীমান্ত রয়েছে?", options: ["আসাম", "ত্রিপুরা", "মিজোরাম", "পশ্চিমবঙ্গ"], correct: 3 },
+{ question: "'সোয়াচ অব নো গ্রাউন্ড' কি?", options: ["একটি দ্বীপ", "বিতর্কিত সীমারেখা", "সাবমেরিন ক্যানিয়ন", "ম্যানগ্রোভ বন"], correct: 2 },
+{ question: "বাংলাদেশ ও মিয়ানমারের বিরোধপূর্ণ স্থান কোনটি?", options: ["নির্মল চর", "দক্ষিণ তালপট্টি", "চর ফরিদ", "নিঝুম দ্বীপ"], correct: 2 },
+{ question: "১৬ মে, ১৯৭৪ সালে বাংলাদেশ-ভারত সীমান্ত চুক্তি স্বাক্ষরিত হয় কোথায়?", options: ["হায়দ্রাবাদ", "নয়াদিল্লি", "ঢাকা", "মুম্বাই"], correct: 1 },
+{ question: "বাংলাদেশের কোন বিভাগের সকল জেলার সাথে ভারতের সীমানা আছে?", options: ["রাজশাহী", "খুলনা", "চট্টগ্রাম", "ময়মনসিংহ"], correct: 3 },
+{ question: "বাংলাদেশের কোন ভূমিরূপটি সবচেয়ে পুরাতন?", options: ["প্লাইস্টোশিন", "টারশিয়ারি", "প্লাবন ভূমি", "লালমাই পাহাড়"], correct: 1 },
+{ question: "বাংলাদেশের কোন অঞ্চলে আকস্মিক বন্যা হয়?", options: ["উত্তর-পশ্চিমাঞ্চল", "উত্তর-পূর্বাঞ্চল", "দক্ষিণ-পশ্চিমাঞ্চল", "দক্ষিণ-পূর্বাঞ্চল"], correct: 1 },
+{ question: "কোনটি জলবায়ুর উপাদান নয়?", options: ["উষ্ণতা", "আর্দ্রতা", "বায়ুপ্রবাহ", "সমুদ্রস্রোত"], correct: 3 },
+{ question: "হালদা ভ্যালি কোথায় অবস্থিত?", options: ["রাঙ্গামাটি", "খাগড়াছড়ি", "বান্দরবান", "চট্টগ্রাম"], correct: 1 },
+{ question: "গ্রিনিচ প্রমাণ সময়ের সাথে বাংলাদেশ সময়ের পার্থক্য কত ঘণ্টা?", options: ["৬ ঘণ্টা", "+ ১২ ঘণ্টা", "- ৫ ঘণ্টা", "+ ৬ ঘণ্টা"], correct: 3 },
+{ question: "বাংলাদেশের মহীসোপানের দৈর্ঘ্য কত?", options: ["১২ নটিক্যাল মাইল", "৩৫০ নটিক্যাল মাইল", "২০০ নটিক্যাল মাইল", "৩৫৪ নটিক্যাল মাইল"], correct: 3 },
+{ question: "যশোরের পূর্বনাম কি?", options: ["খলিফাবাদ", "খলিফাতাবাদ", "জাহানাবাদ", "নাসিরাবাদ"], correct: 1 },
+{ question: "বরেন্দ্র অঞ্চলের প্রধান খনিজ কোনটি?", options: ["কয়লা", "প্রাকৃতিক গ্যাস", "গ্রানাইট", "কালো সোনা"], correct: 0 },
+{ question: "বাংলাদেশের সীমান্তবর্তী ভারতের জেলা কতটি?", options: ["৩২ টি", "৩৩ টি", "৩০ টি", "৩ টি"], correct: 0 },
+{ question: "বাংলাদেশের বৃহত্তম পাহাড় কোনটি?", options: ["মোদক টং", "তাজিং ডং", "গারো পাহাড়", "চন্দ্রনাথ পাহাড়"], correct: 2 },
+{ question: "কর্ণফুলী নদীতে বাঁধ দেওয়ার ফলে যে লেকের সৃষ্টি হয়েছে-", options: ["ফয়েজ লেক", "মহামায়া লেক", "প্রান্তিক লেক", "কাপ্তাই লেক"], correct: 3 },
+{ question: "বন্যার ঝুঁকিতে বিশ্বে বাংলাদেশের অবস্থান কততম?", options: ["২য়", "৭ম", "৪র্থ", "১ম"], correct: 3 },
+{ question: "ব-দ্বীপ পরিকল্পনা বাস্তবায়নে কতটি হটস্পট নির্ধারণ করা হয়েছে?", options: ["৬ টি", "৫ টি", "৩৩ টি", "৮ টি"], correct: 0 },
+{ question: "'বাংলাদেশের ছাদ' বলা হয় কাকে?", options: ["সাজেক ভ্যালি", "বান্দরবান", "খাগড়াছড়ি", "চিম্বুক পাহাড়"], correct: 1 },
+{ question: "ষষ্ঠ জনশুমারি ও গৃহগণনা- ২০২২ এর চূড়ান্ত প্রতিবেদন অনুযায়ী, জনসংখ্যার ঘনত্ব সর্বনিম্ন কোন জেলায়?", options: ["বান্দরবান", "রাঙ্গামাটি", "খাগড়াছড়ি", "বরিশাল"], correct: 1 },
+{ question: "নিচের কোন বিলকে পশ্চিমা বাহিনীর নদী নামে অভিহিত করা হয়?", options: ["চলন বিল", "আড়িয়াল বিল", "ভবদহ বিল", "ডাকাতিয়া বিল"], correct: 3 },
+{ question: "'বাংলাদেশ ডেল্টা প্লান' কিসের সাথে সম্পৃক্ত?", options: ["গ্রিনহাউজ গ্যাস", "জলবায়ু পরিবর্তন", "কর্মসংস্থান সৃষ্টি", "বিশ্বায়ন"], correct: 1 },
+{ question: "জাতীয় দুর্যোগ ব্যবস্থাপনা নীতিমালা প্রণীত হয়-", options: ["২৩১২ সালে", "২০১৪ সালে", "২০১৬ সালে", "২০১৫ সালে"], correct: 3 },
+{ question: "বাংলাদেশের সর্বশেষ সিটি কর্পোরেশন কোনটি?", options: ["ময়মনসিংহ", "গাজীপুর", "বগুড়া", "ফরিদপুর"], correct: 2 },
+{ question: "বর্তমানে দেশে থানার সংখ্যা কতটি?", options: ["৬৫৯টি", "৩৩০টি", "৫০০টি", "৪৯৫টি"], correct: 0 },
+{ question: "২০২৬ সালের গ্লোবাল পিস ইনডেক্স (GPI) অনুযায়ী বিশ্বের সবচেয়ে শান্তিময় দেশ কোনটি?", options: ["আইসল্যান্ড", "ডেনমার্ক", "আয়ারল্যান্ড", "নিউজিল্যান্ড"], correct: 0 },
+{ question: "২০২৬ সালে অনুষ্ঠিত ২১তম এশিয়া কাপ ক্রিকেটে কোন দেশ চ্যাম্পিয়ন হয়?", options: ["ভারত", "পাকিস্তান", "বাংলাদেশ", "শ্রীলঙ্কা"], correct: 0 },
+{ question: "২০২৬ সালে প্রকাশিত হেনরি পাসপোর্ট ইনডেক্সে বিশ্বের শক্তিশালী পাসপোর্টের শীর্ষ দেশ কোনটি?", options: ["সিঙ্গাপুর", "জাপান", "জার্মানি", "ফ্রান্স"], correct: 0 },
+{ question: "জলবায়ু পরিবর্তন সংক্রান্ত জাতিসংঘ সম্মেলন 'COP31' ২০২৬ সালে কোন দেশে অনুষ্ঠিত হওয়ার কথা রয়েছে?", options: ["আজারবাইজান", "ব্রাজিল", "অস্ট্রেলিয়া", "সংযুক্ত আরব আমিরাত"], correct: 2 },
+{ question: "২০২৬ সালের বিশ্ব সুখ প্রতিবেদনে (World Happiness Report) টানা সপ্তমবারের মতো বিশ্বের সবচেয়ে সুখী দেশ কোনটি?", options: ["ডেনমার্ক", "ফিনল্যান্ড", "আইসল্যান্ড", "সুইডেন"], correct: 1 },
+{ question: "২০২৬ সালের ফিফা বিশ্বকাপ ফুটবল কতটি দেশের যৌথ আয়োজনে অনুষ্ঠিত হচ্ছে?", options: ["২টি", "৩টি", "৪টি", "৫টি"], correct: 1 },
+{ question: "২০২৬ সালের শান্তিতে নোবেল পুরস্কার লাভ করে কোন সংস্থা বা সংগঠন?", options: ["মেমোরিয়াল (Memorial)", "নিহন হিদানকিও (Nihon Hidankyo)", "সেন্টার ফর সিভিল লিবার্টিজ", "বিশ্ব খাদ্য কর্মসূচি (WFP)"], correct: 1 },
+{ question: "১ জানুয়ারি ২০২৬ তারিখে ইউরোপীয় ইউনিয়নের কততম দেশ হিসেবে ইউরো মুদ্রা গ্রহণ করে বুলগেরিয়া?", options: ["২১তম", "২০তম", "২২তম", "১৯তম"], correct: 0 },
+{ question: "২০২৬ সালের মার্চ মাসে বাংলাদেশের কোন নতুন জেলা বা অঞ্চলকে দেশের ১৩তম সিটি কর্পোরেশন হিসেবে ঘোষণা করা হয়?", options: ["ফরিদপুর", "কুমিল্লা", "বগুড়া", "কুষ্টিয়া"], correct: 2 },
+{ question: "এনার্জি ট্রানজিশন ইনডেক্স ২০২৬ (Energy Transition Index) অনুযায়ী জ্বালানি রূপান্তরে বাংলাদেশের বর্তমান অবস্থান কততম?", options: ["১৭তম", "১৯তম", "২৩তম", "২৫তম"], correct: 1},
+    ];
+
+    let userName = "";
+    let currentIndex = 0;
+    
+    let questionStates = new Array(questionsDatabase.length).fill(null);
+    let userSelections = new Array(questionsDatabase.length).fill(null);
+
+    function goToNameScreen() {
+      document.getElementById('motivation-view').style.display = 'none';
+      document.getElementById('user-info-view').style.display = 'block';
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const nameInput = document.getElementById('user-name');
+      if (nameInput) {
+        nameInput.addEventListener('keydown', function(event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            startQuiz();
+          }
+        });
+      }
+    });
+
+    function startQuiz() {
+      const inputVal = document.getElementById('user-name').value.trim();
+      if (!inputVal) {
+        alert("অনুগ্রহ করে আপনার নাম প্রদান করুন!");
+        return;
+      }
+      userName = inputVal;
+      document.getElementById('display-name').innerText = userName;
+      document.getElementById('user-info-view').style.display = 'none';
+      document.getElementById('quiz-view').style.display = 'block';
+
+      loadQuestion(0);
+    }
+
+    function loadQuestion(index) {
+      currentIndex = index;
+      const qData = questionsDatabase[currentIndex];
+
+      document.getElementById('progress-text').innerText = `Question ${currentIndex + 1}/${questionsDatabase.length}`;
+      document.getElementById('progress-bar').style.width = `${((currentIndex + 1) / questionsDatabase.length) * 100}%`;
+      document.getElementById('question-title').innerText = qData.question;
+
+      document.getElementById('prev-btn').disabled = (currentIndex === 0);
+      document.getElementById('next-btn').disabled = (currentIndex === questionsDatabase.length - 1);
+
+      const submitBtn = document.getElementById('submit-btn');
+      if (currentIndex === questionsDatabase.length - 1) {
+        submitBtn.style.display = 'inline-block';
+      } else {
+        submitBtn.style.display = 'none';
+      }
+
+      const optionsGrid = document.getElementById('options-grid');
+      optionsGrid.innerHTML = '';
+
+      const isAnswered = (userSelections[currentIndex] !== null);
+      const userSelectedOpt = userSelections[currentIndex];
+
+      qData.options.forEach((opt, optIdx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        
+        let iconHtml = '<i class="fa-regular fa-circle"></i>';
+
+        if (isAnswered) {
+          btn.disabled = true;
+          btn.classList.add('disabled-opt');
+
+          if (optIdx === qData.correct) {
+            btn.classList.add('correct-opt');
+            iconHtml = '<i class="fa-solid fa-circle-check"></i>';
+          } else if (optIdx === userSelectedOpt) {
+            btn.classList.add('wrong-opt');
+            iconHtml = '<i class="fa-solid fa-circle-xmark"></i>';
+          }
+        }
+
+        btn.innerHTML = `<span>${opt}</span> ${iconHtml}`;
+        btn.onclick = () => selectOption(optIdx);
+        optionsGrid.appendChild(btn);
+      });
+    }
+
+    function selectOption(optionIdx) {
+      if (userSelections[currentIndex] !== null) return;
+
+      userSelections[currentIndex] = optionIdx;
+      questionStates[currentIndex] = 'answered';
+
+      loadQuestion(currentIndex);
+    }
+
+    function skipCurrentQuestion() {
+      if (userSelections[currentIndex] === null) {
+        questionStates[currentIndex] = 'skipped';
+      }
+      if (currentIndex < questionsDatabase.length - 1) {
+        loadQuestion(currentIndex + 1);
+      }
+    }
+
+    function navigateQuestion(direction) {
+      const newIndex = currentIndex + direction;
+      if (newIndex >= 0 && newIndex < questionsDatabase.length) {
+        loadQuestion(newIndex);
+      }
+    }
+
+    function openSubmitModal() {
+      let answeredCount = questionStates.filter(s => s === 'answered').length;
+      let skippedCount = questionStates.filter(s => s === 'skipped').length;
+      let unvisitedCount = questionsDatabase.length - (answeredCount + skippedCount);
+
+      document.getElementById('modal-summary-text').innerText = 
+        `Given answer: ${answeredCount}টি | skip: ${skippedCount}টি | Remaining: ${unvisitedCount}টি`;
+
+      document.getElementById('submit-modal').classList.add('active');
+    }
+
+    function closeSubmitModal() {
+      document.getElementById('submit-modal').classList.remove('active');
+    }
+
+    function finalizeExam() {
+      closeSubmitModal();
+      document.getElementById('quiz-view').style.display = 'none';
+      document.getElementById('result-view').style.display = 'block';
+
+      let correct = 0;
+      let wrong = 0;
+      let skipped = 0;
+      let wrongQuestionsList = [];
+
+      const reviewList = document.getElementById('review-list');
+      reviewList.innerHTML = '';
+
+      questionsDatabase.forEach((q, idx) => {
+        const selected = userSelections[idx];
+        const isAnswered = selected !== null;
+        const isCorrect = isAnswered && selected === q.correct;
+        const isWrong = isAnswered && selected !== q.correct;
+
+        if (isCorrect) {
+          correct++;
+        } else if (isWrong) {
+          wrong++;
+          wrongQuestionsList.push({
+            questionNo: idx + 1,
+            questionText: q.question,
+            givenAnswer: q.options[selected],
+            correctAnswer: q.options[q.correct]
+          });
+        } else {
+          skipped++;
+        }
+
+        const item = document.createElement('div');
+        let statusClass = isCorrect ? 'is-correct' : (isWrong ? 'is-wrong' : 'is-skipped');
+        item.className = `review-item ${statusClass}`;
+
+        let selectedText = isAnswered ? q.options[selected] : 'উত্তর দেওয়া হয়নি (স্কিপড)';
+        let correctText = q.options[q.correct];
+
+        item.innerHTML = `
+          <div class="review-q">${q.question}</div>
+          <div class="review-ans">
+            <span>your answer: <strong style="color: ${isCorrect ? 'var(--correct-text)' : (isWrong ? 'var(--wrong-text)' : 'var(--skipped-text)')}">${selectedText}</strong></span>
+            ${!isCorrect ? `<span>Right answer: <strong style="color: var(--correct-text)">${correctText}</strong></span>` : ''}
+          </div>
+        `;
+        reviewList.appendChild(item);
+      });
+
+      let totalScore = (correct * 1.0) - (wrong * 0.25);
+      if (totalScore < 0) totalScore = 0;
+
+      let answeredTotal = correct + wrong;
+      let accuracy = answeredTotal > 0 ? ((correct / answeredTotal) * 100).toFixed(1) : 0;
+
+      document.getElementById('final-score').innerText = totalScore.toFixed(2);
+      document.getElementById('correct-count').innerText = correct;
+      document.getElementById('wrong-count').innerText = wrong;
+      document.getElementById('skipped-count').innerText = skipped;
+      document.getElementById('accuracy-rate').innerText = `${accuracy}%`;
+
+      const perfBadge = document.getElementById('performance-badge');
+      if (totalScore >= 60) {
+        perfBadge.innerHTML = `<i class="fa-solid fa-trophy"></i> চমৎকার প্রস্তুতি! (Outstanding)`;
+      } else if (totalScore >= 40) {
+        perfBadge.innerHTML = `<i class="fa-solid fa-medal"></i> ভালো ফলাফল (Good Job)`;
+      } else {
+        perfBadge.innerHTML = `<i class="fa-solid fa-book-open"></i> আরও অনুশীলন প্রয়োজন`;
+      }
+
+      db.collection("quiz_results 18").add({
+        studentName: userName,
+        totalScore: totalScore.toFixed(2),
+        correctAnswers: correct,
+        wrongAnswers: wrong,
+        skippedQuestions: skipped,
+        accuracyPercentage: accuracy,
+        wrongQuestionsBreakdown: wrongQuestionsList,
+        submittedAt: new Date().toISOString()
+      })
+      .then(() => console.log("Result saved to Firestore successfully!"))
+      .catch((err) => console.error("Firestore Save Error: ", err));
+    }
+  </script>
+</body>
+</html>
