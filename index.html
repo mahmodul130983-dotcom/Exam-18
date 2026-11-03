@@ -78,22 +78,8 @@
       animation: float 10s infinite alternate ease-in-out;
     }
 
-    .circle-1 {
-      width: 380px;
-      height: 380px;
-      background: #4f46e5;
-      top: -50px;
-      left: -50px;
-    }
-
-    .circle-2 {
-      width: 420px;
-      height: 420px;
-      background: #db2777;
-      bottom: -100px;
-      right: -50px;
-      animation-delay: -5s;
-    }
+    .circle-1 { width: 380px; height: 380px; background: #4f46e5; top: -50px; left: -50px; }
+    .circle-2 { width: 420px; height: 420px; background: #db2777; bottom: -100px; right: -50px; animation-delay: -5s; }
 
     @keyframes float {
       0% { transform: translate(0, 0) scale(1); }
@@ -115,11 +101,8 @@
       transition: all 0.3s ease;
     }
 
-    .motivation-screen {
-      text-align: center;
-      display: block;
-      animation: fadeIn 0.4s ease-out;
-    }
+    .screen-view { display: none; }
+    .screen-view.active { display: block; animation: fadeIn 0.4s ease-out; }
 
     .badge-tag {
       display: inline-flex;
@@ -189,15 +172,7 @@
       outline: none;
     }
 
-    .dream-box-item input:focus {
-      border-color: #ec4899;
-    }
-
-    .user-info-screen {
-      text-align: center;
-      display: none;
-      animation: fadeIn 0.4s ease-out;
-    }
+    .dream-box-item input:focus { border-color: #ec4899; }
 
     .input-wrapper {
       position: relative;
@@ -255,10 +230,7 @@
       gap: 10px;
     }
 
-    .btn-glow:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(236, 72, 153, 0.5);
-    }
+    .btn-glow:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(236, 72, 153, 0.5); }
 
     .top-bar {
       display: flex;
@@ -316,11 +288,7 @@
       min-height: 56px;
     }
 
-    .options-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+    .options-grid { display: flex; flex-direction: column; gap: 12px; }
 
     .option-btn {
       width: 100%;
@@ -344,33 +312,11 @@
       transform: translateX(3px);
     }
 
-    .option-btn.correct-opt {
-      background: var(--correct-bg) !important;
-      border-color: var(--correct-border) !important;
-      color: var(--correct-text) !important;
-      font-weight: 600;
-    }
+    .option-btn.correct-opt { background: var(--correct-bg) !important; border-color: var(--correct-border) !important; color: var(--correct-text) !important; font-weight: 600; }
+    .option-btn.wrong-opt { background: var(--wrong-bg) !important; border-color: var(--wrong-border) !important; color: var(--wrong-text) !important; font-weight: 600; }
+    .option-btn.disabled-opt { opacity: 0.8; cursor: not-allowed; }
 
-    .option-btn.wrong-opt {
-      background: var(--wrong-bg) !important;
-      border-color: var(--wrong-border) !important;
-      color: var(--wrong-text) !important;
-      font-weight: 600;
-    }
-
-    .option-btn.disabled-opt {
-      opacity: 0.8;
-      cursor: not-allowed;
-    }
-
-    .nav-actions {
-      margin-top: 28px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+    .nav-actions { margin-top: 28px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
 
     .nav-btn {
       background: rgba(255, 255, 255, 0.08);
@@ -387,25 +333,11 @@
       transition: all 0.2s;
     }
 
-    .nav-btn:hover:not(:disabled) {
-      background: rgba(255, 255, 255, 0.15);
-      transform: translateY(-1px);
-    }
+    .nav-btn:hover:not(:disabled) { background: rgba(255, 255, 255, 0.15); transform: translateY(-1px); }
+    .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .nav-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    .skip-btn {
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid rgba(245, 158, 11, 0.4);
-      color: var(--skipped-text);
-    }
-
-    .skip-btn:hover {
-      background: rgba(245, 158, 11, 0.25) !important;
-    }
+    .skip-btn { background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4); color: var(--skipped-text); }
+    .skip-btn:hover { background: rgba(245, 158, 11, 0.25) !important; }
 
     .submit-exam-btn {
       background: linear-gradient(135deg, #22c55e, #16a34a);
@@ -420,16 +352,7 @@
       transition: all 0.2s;
       display: none;
     }
-
-    .submit-exam-btn:hover {
-      transform: scale(1.03);
-    }
-
-    .result-screen {
-      text-align: center;
-      display: none;
-      animation: fadeIn 0.4s ease-out;
-    }
+    .submit-exam-btn:hover { transform: scale(1.03); }
 
     .score-circle {
       width: 170px;
@@ -455,50 +378,15 @@
       -webkit-text-fill-color: transparent;
     }
 
-    .score-details-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin: 24px 0;
-    }
+    .score-details-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 24px 0; }
+    .stat-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 14px 8px; border-radius: 14px; }
+    .stat-card .val { font-size: 20px; font-weight: 700; }
 
-    .stat-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      padding: 14px 8px;
-      border-radius: 14px;
-    }
+    .review-section { margin-top: 24px; text-align: left; max-height: 320px; overflow-y: auto; padding-right: 6px; }
+    .review-section::-webkit-scrollbar { width: 6px; }
+    .review-section::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
 
-    .stat-card .val {
-      font-size: 20px;
-      font-weight: 700;
-    }
-
-    .review-section {
-      margin-top: 24px;
-      text-align: left;
-      max-height: 320px;
-      overflow-y: auto;
-      padding-right: 6px;
-    }
-
-    .review-section::-webkit-scrollbar {
-      width: 6px;
-    }
-    .review-section::-webkit-scrollbar-thumb {
-      background: rgba(255,255,255,0.2);
-      border-radius: 10px;
-    }
-
-    .review-item {
-      background: rgba(15, 23, 42, 0.5);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 10px;
-      font-size: 14px;
-    }
-
+    .review-item { background: rgba(15, 23, 42, 0.5); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; margin-bottom: 10px; font-size: 14px; }
     .review-item.is-correct { border-left: 4px solid var(--correct-border); }
     .review-item.is-wrong { border-left: 4px solid var(--wrong-border); }
     .review-item.is-skipped { border-left: 4px solid var(--skipped-border); }
@@ -519,11 +407,7 @@
       pointer-events: none;
       transition: all 0.3s ease;
     }
-
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
 
     .modal-content {
       background: rgba(30, 27, 75, 0.95);
@@ -535,18 +419,9 @@
       text-align: center;
       box-shadow: var(--glass-shadow);
     }
+    .modal-actions { display: flex; gap: 12px; margin-top: 20px; justifyContent: center; }
 
-    .modal-actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 20px;
-      justify-content: center;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -559,23 +434,24 @@
   <div class="quiz-card">
     
     <!-- 1. Special Motivation & Dream Page -->
-    <div id="motivation-view" class="motivation-screen">
+    <div id="motivation-view" class="screen-view active">
       <div class="badge-tag">
         <i class="fa-solid fa-heart"></i> Hey, My Favourite Person! ❤️ <i class="fa-solid fa-heart"></i>
       </div>
       <h1 class="motivation-title">It's your time to conquer! ✨</h1>
       <p class="motivation-desc">
-       This is just one chapter of your journey, my girl, not the end of your story. Your DU dream is still alive, and I truly believe beautiful days are waiting for you. Keep believing in yourself, Pakhi. ❤️
+  Your dream is still waiting for you, my girl. And I can't wait to see you achieve it. ❤️🌸<br>
+       Hey, my girl! ❤️ please don't let this one result affect how you see yourself. HSC is an important part of life, but it isn't the whole of it. Your DU dream is still ahead of you, and I genuinely hope you get the chance to make it come true. Whatever happens, remember that one result doesn't define your ability or your future. I just want to see you happy, confident and believing in yourself again. I'm always rooting for you, Pakhi. ❤️
       </p>
 
       <div class="dream-grid">
         <div class="dream-box-item">
-          <label><i class="fa-solid fa-star" style="color: #f472b6;"></i> DO YOU LIKE BIRIYANI?</label>
-          <input type="text" id="dream-uni" placeholder="e.g. AMR HATE HOLE KEMON HOI? ..." autocomplete="off">
+          <label><i class="fa-solid fa-star" style="color: #f472b6;"></i> WRITE YOUR DREAM UNIVERSITY AND DEPARTMENT?</label>
+          <input type="text" id="dream-uni" placeholder="e.g. University of Dhaka (DU) " autocomplete="off">
         </div>
         <div class="dream-box-item">
-          <label><i class="fa-solid fa-bullseye" style="color: #818cf8;"></i> Tumar present time e sobcheye beshie motivation kon jinis e pao?</label>
-          <input type="text" id="dream-future" placeholder="e.g.???? ❤️..." autocomplete="off">
+          <label><i class="fa-solid fa-bullseye" style="color: #818cf8;"></i> Tumi present e kon jinis e beshie motivation pao?</label>
+          <input type="text" id="dream-future" placeholder="e.g. A successful, independent and confident woman..." autocomplete="off">
         </div>
       </div>
 
@@ -585,10 +461,8 @@
     </div>
 
     <!-- 2. Name Input View -->
-    <div id="user-info-view" class="user-info-screen">
-      <div class="badge-tag">
-        <i class="fa-solid fa-graduation-cap"></i> DU B UNIT MODEL TEST
-      </div>
+    <div id="user-info-view" class="screen-view">
+      <div class="badge-tag"><i class="fa-solid fa-graduation-cap"></i> DU B UNIT MODEL TEST</div>
       <h1 class="motivation-title" style="font-size: 32px;">18 number exam</h1>
       <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 24px;">including GK, BANGLA, ENGLISH</p>
       
@@ -603,7 +477,7 @@
     </div>
 
     <!-- 3. Exam Screen -->
-    <div id="quiz-view" style="display: none;">
+    <div id="quiz-view" class="screen-view">
       <div class="top-bar">
         <div class="student-badge">
           <i class="fa-solid fa-user-circle" style="color: #818cf8;"></i>
@@ -628,7 +502,7 @@
     </div>
 
     <!-- 4. Results Screen -->
-    <div class="result-screen" id="result-view">
+    <div id="result-view" class="screen-view">
       <div class="badge-tag" id="performance-badge"><i class="fa-solid fa-trophy"></i> Results are ready</div>
       <h2 style="font-size: 26px; font-weight: 700; margin-top: 8px;">Results Description</h2>
       <p style="color: var(--text-muted); font-size: 14px;">'quiz_results 18' are saved in database</p>
@@ -690,7 +564,7 @@
     const db = firebase.firestore();
 
     const questionsDatabase = [
-      { question: "'জীবন ও বৃক্ষ' প্রবন্ধ অনুসারে দোরের কাছে দাঁড়িয়ে বৃক্ষ কীসের বাণী প্রচার করে?", options: ["নতি, শান্তি ও সেবার", "সাম্য, মৈত্রী ও স্বাধীনতার", "একতা, শৃঙ্খলা ও সাধনার", "সাধনা, ত্যাগ ও পরিপূর্ণতার"], correct: 0 },
+  { question: "'জীবন ও বৃক্ষ' প্রবন্ধ অনুসারে দোরের কাছে দাঁড়িয়ে বৃক্ষ কীসের বাণী প্রচার করে?", options: ["নতি, শান্তি ও সেবার", "সাম্য, মৈত্রী ও স্বাধীনতার", "একতা, শৃঙ্খলা ও সাধনার", "সাধনা, ত্যাগ ও পরিপূর্ণতার"], correct: 0 },
       { question: "'যে মোরে দিয়েছে বিষে-ভরা বাণ, আমি দেই তারে বুকভরা গান'- এ পঙ্ক্তিতে 'বিষে-ভরা বাণ' দ্বারা কী বোঝানো হয়েছে?", options: ["বিষাক্ত তীর", "ধারালো তীর", "কটুকথা", "তীরের আঘাত"], correct: 2 },
       { question: "ঘোষ মহাপ্রাণ ধ্বনির উদাহরণ কোনটি?", options: ["চ", "ছ", "জ", "ঢ"], correct: 3 },
       { question: "'হাত জোড় করিয়াছি, মাথা হেঁট করিয়াছি' অপরিচিতা গল্প অনুসারে অনুপমের হাত জোড় করা এবং মাথা হেঁট করা কী নির্দেশ করে?", options: ["অনুপমের ভালোবাসার গভীরতা", "পুরুষতান্ত্রিক দম্ভের পরাজয়", "অনুপমের কাপুরুষতা", "অনুপমের ক্ষমা প্রার্থনা"], correct: 1 },
@@ -780,25 +654,16 @@
     let questionStates = new Array(questionsDatabase.length).fill(null);
     let userSelections = new Array(questionsDatabase.length).fill(null);
 
+    function switchScreen(screenId) {
+      document.querySelectorAll('.screen-view').forEach(screen => screen.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+    }
+
     function goToNameScreen() {
       dreamUniValue = document.getElementById('dream-uni').value.trim();
       dreamFutureValue = document.getElementById('dream-future').value.trim();
-
-      document.getElementById('motivation-view').style.display = 'none';
-      document.getElementById('user-info-view').style.display = 'block';
+      switchScreen('user-info-view');
     }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const nameInput = document.getElementById('user-name');
-      if (nameInput) {
-        nameInput.addEventListener('keydown', function(event) {
-          if (event.key === "Enter") {
-            event.preventDefault();
-            startQuiz();
-          }
-        });
-      }
-    });
 
     function startQuiz() {
       const inputVal = document.getElementById('user-name').value.trim();
@@ -808,9 +673,7 @@
       }
       userName = inputVal;
       document.getElementById('display-name').innerText = userName;
-      document.getElementById('user-info-view').style.display = 'none';
-      document.getElementById('quiz-view').style.display = 'block';
-
+      switchScreen('quiz-view');
       loadQuestion(0);
     }
 
@@ -826,11 +689,7 @@
       document.getElementById('next-btn').disabled = (currentIndex === questionsDatabase.length - 1);
 
       const submitBtn = document.getElementById('submit-btn');
-      if (currentIndex === questionsDatabase.length - 1) {
-        submitBtn.style.display = 'inline-block';
-      } else {
-        submitBtn.style.display = 'none';
-      }
+      submitBtn.style.display = (currentIndex === questionsDatabase.length - 1) ? 'inline-block' : 'none';
 
       const optionsGrid = document.getElementById('options-grid');
       optionsGrid.innerHTML = '';
@@ -841,13 +700,11 @@
       qData.options.forEach((opt, optIdx) => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
-        
         let iconHtml = '<i class="fa-regular fa-circle"></i>';
 
         if (isAnswered) {
           btn.disabled = true;
           btn.classList.add('disabled-opt');
-
           if (optIdx === qData.correct) {
             btn.classList.add('correct-opt');
             iconHtml = '<i class="fa-solid fa-circle-check"></i>';
@@ -865,54 +722,34 @@
 
     function selectOption(optionIdx) {
       if (userSelections[currentIndex] !== null) return;
-
       userSelections[currentIndex] = optionIdx;
       questionStates[currentIndex] = 'answered';
-
       loadQuestion(currentIndex);
     }
 
     function skipCurrentQuestion() {
-      if (userSelections[currentIndex] === null) {
-        questionStates[currentIndex] = 'skipped';
-      }
-      if (currentIndex < questionsDatabase.length - 1) {
-        loadQuestion(currentIndex + 1);
-      }
+      if (userSelections[currentIndex] === null) questionStates[currentIndex] = 'skipped';
+      if (currentIndex < questionsDatabase.length - 1) loadQuestion(currentIndex + 1);
     }
 
     function navigateQuestion(direction) {
       const newIndex = currentIndex + direction;
-      if (newIndex >= 0 && newIndex < questionsDatabase.length) {
-        loadQuestion(newIndex);
-      }
+      if (newIndex >= 0 && newIndex < questionsDatabase.length) loadQuestion(newIndex);
     }
 
     function openSubmitModal() {
-      let answeredCount = questionStates.filter(s => s === 'answered').length;
-      let skippedCount = questionStates.filter(s => s === 'skipped').length;
-      let unvisitedCount = questionsDatabase.length - (answeredCount + skippedCount);
-
-      document.getElementById('modal-summary-text').innerText = 
-        `Given answer: ${answeredCount}টি | skip: ${skippedCount}টি | Remaining: ${unvisitedCount}টি`;
-
       document.getElementById('submit-modal').classList.add('active');
     }
-
     function closeSubmitModal() {
       document.getElementById('submit-modal').classList.remove('active');
     }
 
     function finalizeExam() {
       closeSubmitModal();
-      document.getElementById('quiz-view').style.display = 'none';
-      document.getElementById('result-view').style.display = 'block';
+      switchScreen('result-view');
 
-      let correct = 0;
-      let wrong = 0;
-      let skipped = 0;
+      let correct = 0, wrong = 0, skipped = 0;
       let wrongQuestionsList = [];
-
       const reviewList = document.getElementById('review-list');
       reviewList.innerHTML = '';
 
@@ -922,42 +759,26 @@
         const isCorrect = isAnswered && selected === q.correct;
         const isWrong = isAnswered && selected !== q.correct;
 
-        if (isCorrect) {
-          correct++;
-        } else if (isWrong) {
+        if (isCorrect) correct++;
+        else if (isWrong) {
           wrong++;
-          wrongQuestionsList.push({
-            questionNo: idx + 1,
-            questionText: q.question,
-            givenAnswer: q.options[selected],
-            correctAnswer: q.options[q.correct]
-          });
-        } else {
-          skipped++;
-        }
+          wrongQuestionsList.push({ questionNo: idx + 1, questionText: q.question, givenAnswer: q.options[selected], correctAnswer: q.options[q.correct] });
+        } else skipped++;
 
         const item = document.createElement('div');
-        let statusClass = isCorrect ? 'is-correct' : (isWrong ? 'is-wrong' : 'is-skipped');
-        item.className = `review-item ${statusClass}`;
-
-        let selectedText = isAnswered ? q.options[selected] : 'উত্তর দেওয়া হয়নি (স্কিপড)';
-        let correctText = q.options[q.correct];
-
+        item.className = `review-item ${isCorrect ? 'is-correct' : (isWrong ? 'is-wrong' : 'is-skipped')}`;
         item.innerHTML = `
           <div class="review-q">${q.question}</div>
           <div class="review-ans">
-            <span>your answer: <strong style="color: ${isCorrect ? 'var(--correct-text)' : (isWrong ? 'var(--wrong-text)' : 'var(--skipped-text)')}">${selectedText}</strong></span>
-            ${!isCorrect ? `<span>Right answer: <strong style="color: var(--correct-text)">${correctText}</strong></span>` : ''}
+            <span>your answer: <strong>${isAnswered ? q.options[selected] : 'Skipped'}</strong></span>
+            ${!isCorrect ? `<span>Right answer: <strong style="color:var(--correct-text)">${q.options[q.correct]}</strong></span>` : ''}
           </div>
         `;
         reviewList.appendChild(item);
       });
 
-      let totalScore = (correct * 1.0) - (wrong * 0.25);
-      if (totalScore < 0) totalScore = 0;
-
-      let answeredTotal = correct + wrong;
-      let accuracy = answeredTotal > 0 ? ((correct / answeredTotal) * 100).toFixed(1) : 0;
+      let totalScore = Math.max(0, (correct * 1.0) - (wrong * 0.25));
+      let accuracy = (correct + wrong) > 0 ? ((correct / (correct + wrong)) * 100).toFixed(1) : 0;
 
       document.getElementById('final-score').innerText = totalScore.toFixed(2);
       document.getElementById('correct-count').innerText = correct;
@@ -965,16 +786,7 @@
       document.getElementById('skipped-count').innerText = skipped;
       document.getElementById('accuracy-rate').innerText = `${accuracy}%`;
 
-      const perfBadge = document.getElementById('performance-badge');
-      if (totalScore >= 60) {
-        perfBadge.innerHTML = `<i class="fa-solid fa-trophy"></i> চমৎকার প্রস্তুতি! (Outstanding)`;
-      } else if (totalScore >= 40) {
-        perfBadge.innerHTML = `<i class="fa-solid fa-medal"></i> ভালো ফলাফল (Good Job)`;
-      } else {
-        perfBadge.innerHTML = `<i class="fa-solid fa-book-open"></i> আরও অনুশীলন প্রয়োজন`;
-      }
-
-      // Firestore Save including dream values
+      // Firestore Database Save
       db.collection("quiz_results 18").add({
         studentName: userName,
         dreamUni: dreamUniValue,
@@ -986,12 +798,8 @@
         accuracyPercentage: accuracy,
         wrongQuestionsBreakdown: wrongQuestionsList,
         submittedAt: new Date().toISOString()
-      })
-      .then(() => console.log("Result saved to Firestore successfully!"))
-      .catch((err) => console.error("Firestore Save Error: ", err));
+      }).then(() => console.log("Saved!")).catch(err => console.error(err));
     }
   </script>
-</body>
-</html>
 </body>
 </html>
